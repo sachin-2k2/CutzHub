@@ -1,9 +1,17 @@
 import 'package:cutzhub/client/login.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class registrationpage extends StatelessWidget {
+class registrationpage extends StatefulWidget {
   const registrationpage({super.key});
 
+  @override
+  State<registrationpage> createState() => _registrationpageState();
+}
+
+final baseurl = 'http://192.168.1.36:5000';
+
+class _registrationpageState extends State<registrationpage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController name = TextEditingController();
@@ -13,6 +21,40 @@ class registrationpage extends StatelessWidget {
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
     final formkey = GlobalKey<FormState>();
+    Dio dio = Dio();
+
+    Future<void> post_reg(context) async {
+      try {
+        final response = await dio.post(
+          '$baseurl/User_API/',
+          data: {
+            'Name': name.text,
+            'Companyname': compname.text,
+            'Address': adress.text,
+            'Phone': phone.text,
+            'Email': email.text,
+            'Password': password.text,
+            'Username': email.text,
+          },
+        );
+        print(response.data);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Loginpage()),
+          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('registration succesfull')));
+        } else {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('registration failed')));
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 27, 26, 26),
@@ -220,7 +262,6 @@ class registrationpage extends StatelessWidget {
                           return 'Enter your Phone number';
                         }
                         return null;
-
                       },
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
@@ -304,6 +345,7 @@ class registrationpage extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.all(13.0),
                     child: TextFormField(
@@ -354,10 +396,7 @@ class registrationpage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (formkey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Loginpage()),
-                        );
+                        post_reg(context);
                       }
                     },
                     style: ElevatedButton.styleFrom(

@@ -62,7 +62,7 @@ class _splash_pasgeState extends State<splash_page> {
                 color: Colors.green,
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                letterSpacing: 8
+                letterSpacing: 8,
               ),
             ),
           ],

@@ -114,11 +114,14 @@ class _CreativePaymentPageState extends State<CreativePaymentPage> {
                   if (_formKey.currentState!.validate()) {
                     setState(() => _isProcessing = true);
 
-                    await Future.delayed(const Duration(seconds: 2)); // Simulate payment
+                    await Future.delayed(
+                      const Duration(seconds: 2),
+                    ); // Simulate payment
 
                     setState(() => _isProcessing = false);
 
                     showDialog(
+                      // ignore: use_build_context_synchronously
                       context: context,
                       builder: (_) => AlertDialog(
                         title: const Text("Payment Successful"),
@@ -145,6 +148,7 @@ class _CreativePaymentPageState extends State<CreativePaymentPage> {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
+                        // ignore: deprecated_member_use
                         color: Colors.green.withOpacity(0.5),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
@@ -215,7 +219,10 @@ class _CreativePaymentPageState extends State<CreativePaymentPage> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 14,
+          horizontal: 16,
+        ),
       ),
     );
   }
@@ -223,6 +230,7 @@ class _CreativePaymentPageState extends State<CreativePaymentPage> {
   /// Dropdown for Payment Method
   Widget _buildDropdown() {
     return DropdownButtonFormField<String>(
+      // ignore: deprecated_member_use
       value: _selectedMethod,
       dropdownColor: Colors.grey[900],
       iconEnabledColor: Colors.white70,
@@ -233,14 +241,14 @@ class _CreativePaymentPageState extends State<CreativePaymentPage> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
       ),
       style: const TextStyle(color: Colors.white),
       items: _paymentMethods.map((method) {
-        return DropdownMenuItem(
-          value: method,
-          child: Text(method),
-        );
+        return DropdownMenuItem(value: method, child: Text(method));
       }).toList(),
       onChanged: (value) {
         setState(() {

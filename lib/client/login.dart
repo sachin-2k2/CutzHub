@@ -1,24 +1,68 @@
 import 'package:cutzhub/client/home.dart';
 import 'package:cutzhub/client/registration.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Loginpage extends StatelessWidget {
+class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
 
   @override
+  State<Loginpage> createState() => _LoginpageState();
+}
+int? loginid;
+class _LoginpageState extends State<Loginpage> {
+  
+
+  Dio dio = Dio();
+  
+
+  @override
   Widget build(BuildContext context) {
+
+    
     final formkey = GlobalKey<FormState>();
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
 
+    // ignore: non_constant_identifier_names
     Future<void> login_splash(context) async {
+      // ignore: non_constant_identifier_names
       SharedPreferences log_in = await SharedPreferences.getInstance();
       await log_in.setBool('logged', true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Homepage()),
       );
+    }
+
+    Future<void> post_login(context) async {
+      try {
+        final response = await dio.post(
+          '$baseurl/LoginAPI/',
+          data: {'Username': email.text, 'Password': password.text},
+        );
+        print(response.data);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          loginid = response.data['login_id'];
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setInt('login_id', loginid!);
+          print(loginid);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Homepage()),
+          );
+          login_splash(context);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('login succesfull')));
+        } else {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('registration failed')));
+        }
+      } catch (e) {}
     }
 
     return Scaffold(
@@ -177,7 +221,7 @@ class Loginpage extends StatelessWidget {
                   SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
-                      login_splash(context);
+                      post_login(context);
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(180, 50),

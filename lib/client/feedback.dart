@@ -13,7 +13,8 @@ class _FeedbackpageState extends State<Feedbackpage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: const Color.fromARGB(255, 27, 26, 26),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 27, 26, 26),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -27,7 +28,7 @@ class _FeedbackpageState extends State<Feedbackpage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            
+
               SizedBox(height: 40),
               Container(
                 height: 88,
@@ -39,7 +40,7 @@ class _FeedbackpageState extends State<Feedbackpage> {
                     topLeft: Radius.circular(10),
                   ),
                 ),
-          
+
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
@@ -76,7 +77,7 @@ class _FeedbackpageState extends State<Feedbackpage> {
                 height: 80,
                 width: 350,
                 decoration: BoxDecoration(
-                  color:const Color.fromARGB(131, 103, 117, 124),
+                  color: const Color.fromARGB(131, 103, 117, 124),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
@@ -141,7 +142,7 @@ class _FeedbackpageState extends State<Feedbackpage> {
                               horizontal: 20,
                               vertical: 15,
                             ),
-          
+
                             fillColor: const Color.fromARGB(52, 203, 207, 207),
                             filled: true,
                             label: Text(
