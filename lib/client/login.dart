@@ -12,7 +12,11 @@ class Loginpage extends StatefulWidget {
 }
 int? loginid;
 class _LoginpageState extends State<Loginpage> {
-  
+  bool _obscure = true;
+   final formkey = GlobalKey<FormState>();
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
+
 
   Dio dio = Dio();
   
@@ -21,10 +25,7 @@ class _LoginpageState extends State<Loginpage> {
   Widget build(BuildContext context) {
 
     
-    final formkey = GlobalKey<FormState>();
-    TextEditingController email = TextEditingController();
-    TextEditingController password = TextEditingController();
-
+   
     // ignore: non_constant_identifier_names
     Future<void> login_splash(context) async {
       // ignore: non_constant_identifier_names
@@ -175,6 +176,7 @@ class _LoginpageState extends State<Loginpage> {
                   Padding(
                     padding: const EdgeInsets.all(13.0),
                     child: TextFormField(
+                      obscureText: _obscure,
                       controller: password,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -184,6 +186,14 @@ class _LoginpageState extends State<Loginpage> {
                       },
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                         suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure ? Icons.visibility_off : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() => _obscure = !_obscure);
+                          },
+                        ),
                         contentPadding: EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 15,

@@ -10,11 +10,10 @@ class registrationpage extends StatefulWidget {
 }
 
 final baseurl = 'http://192.168.1.36:5000';
+ 
 
 class _registrationpageState extends State<registrationpage> {
-  @override
-  Widget build(BuildContext context) {
-    TextEditingController name = TextEditingController();
+  bool _obscure = true;   TextEditingController name = TextEditingController();
     TextEditingController compname = TextEditingController();
     TextEditingController adress = TextEditingController();
     TextEditingController phone = TextEditingController();
@@ -22,6 +21,10 @@ class _registrationpageState extends State<registrationpage> {
     TextEditingController password = TextEditingController();
     final formkey = GlobalKey<FormState>();
     Dio dio = Dio();
+  @override
+  Widget build(BuildContext context) {
+  
+  
 
     Future<void> post_reg(context) async {
       try {
@@ -349,6 +352,7 @@ class _registrationpageState extends State<registrationpage> {
                   Padding(
                     padding: const EdgeInsets.all(13.0),
                     child: TextFormField(
+                      obscureText: _obscure,
                       controller: password,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -358,6 +362,15 @@ class _registrationpageState extends State<registrationpage> {
                       },
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure ? Icons.visibility_off : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() => _obscure = !_obscure);
+                          },
+                        ),
+
                         contentPadding: EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 15,
